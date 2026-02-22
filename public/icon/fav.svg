@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg height="1024" width="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <rect fill="#0b5" height="1024" width="1024" rx="128" ry="128"/>
+  <rect fill="#fff" height="64" width="704" x="160" y="258"/>
+  <rect fill="#fff" height="64" width="704" x="160" y="406"/>
+  <rect fill="#fff" height="64" width="704" x="160" y="554"/>
+  <rect fill="#fff" height="64" width="704" x="160" y="702"/>
+</svg>
