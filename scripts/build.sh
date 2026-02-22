@@ -2,20 +2,15 @@
 
 set -e
 
-# Install dev dependencies
-npm install
-
-# Make clean output dir and zip
+# Make clean output dir and remove dist.zip
 rm -fr dist dist.zip
 mkdir dist
 
-# Compile PUG to MJS
-node -p 'require("pug").compileFileClient("src/template.pug")' \
-  > dist/template.mjs
-printf '\n%s\n' 'export { template };' >> dist/template.mjs
+# Install dev dependencies
+npm install
+# Build dist
+npm run build
 
-# Copy MJS
-cp src/*.mjs dist
-
+# Zip dist
 cd dist
 zip -r ../dist.zip *

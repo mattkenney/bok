@@ -12,9 +12,9 @@ export const handler = async (event) => {
     body: params,
     method: 'POST'
   });
-  const data = await res.json();
-  const next = offset + data.length;
-  const body = template({ data, offset, next });
+  const items = await res.json();
+  const next = offset + items.length;
+  const body = template({ items, next, offset });
 
   return {
     status: '200',

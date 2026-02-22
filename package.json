@@ -4,5 +4,9 @@
     "@picocss/pico": "^2.1.1",
     "express": "^5.2.1",
     "pug": "^3.0.3"
+  },
+  "scripts": {
+    "build": "node src/compile.mjs",
+    "dev": "node --watch-path=src src/dev.mjs"
   }
 }

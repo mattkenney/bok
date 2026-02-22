@@ -2,8 +2,8 @@ doctype html
 html(lang="en")
   head
     meta(charset="UTF-8")
-    meta(content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport")
-    title= 'Book Marks Fiction Reviews'
+    meta(content="width=device-width, initial-scale=1" name="viewport")
+    title!= `Book Marks &#8226; Fiction`
     meta(content="yes" name="apple-mobile-web-app-capable")
     meta(content="yes" name="mobile-web-app-capable")
     link(href="/css/pico.min.css" rel="stylesheet")
@@ -23,19 +23,19 @@ html(lang="en")
       }
   body
     main(class="container")
-      h3= `Book Marks Fiction Reviews ${offset + 1} - ${next}`
-      each item, index in data
-        details(id='i' + (index + 1))
+      h3!= `Book Marks &#8226; Fiction &#8226; ${offset + 1} - ${next}`
+      each item, index in items
+        details(id='i' + (offset + index + 1))
           summary
             i= item.book_name
             span!= ' &#8226; '
             span= item.book_author
             span!= ' &#8226; '
             span(class="tag")
-              span(style="color:green")!= '&#x25B2;'.repeat(item.raves)
-              span(style="color:blue")!= '&#x25B4;'.repeat(item.good)
-              span(style="color:yellow")!= '&#x25C6;'.repeat(item.mixed)
-              span(style="color:red")!= '&#x25BC;'.repeat(item.pan)
+              span(style="color:#0b5")!= '&#x25b2;'.repeat(item.raves)
+              span(style="color:#33f")!= '&#x25b4;'.repeat(item.good)
+              span(style="color:#ff3")!= '&#x25c6;'.repeat(item.mixed)
+              span(style="color:#f33")!= '&#x25bc;'.repeat(item.pan)
             each cat in item.post_category
               unless cat.name === "Fiction" || cat.name === "Literary"
                 span(class="tag")!= cat.name
@@ -44,6 +44,6 @@ html(lang="en")
             div
               a(href=item.url)= 'Reviews'
       if offset > 0
-        a(href=`?offset=${Math.max(0, offset - data.length)}`)= 'Previous'
+        a(href=`?offset=${Math.max(0, offset - items.length)}`)= 'Previous'
         span!= ' &#8226; '
       a(href=`?offset=${next}`)= 'Next'
