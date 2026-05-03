@@ -3,31 +3,49 @@ import { template } from './template.mjs';
 const resource = 'https://bookmarks.reviews/wp-admin/admin-ajax.php';
 const options = [['action', 'lhbookmarkscat'], ['category_id', '6178']];
 
+const errorResponse = (statusCode, error) => ({
+  statusCode,
+  headers: {
+    'Cache-Control': 'no-store',
+    'Content-Type': 'text/html; charset=utf-8'
+  },
+  body: template({ error })
+});
+
 export const handler = async (event) => {
-  const qs = new URLSearchParams(event.Records[0].cf.request.querystring);
-  const offset = parseInt(qs.get('offset'), 10) || 0;
+  const offset = parseInt(event.queryStringParameters?.offset, 10) || 0;
   const params = new URLSearchParams(options);
   params.append('offset', String(offset));
-  const res = await fetch(resource, {
-    body: params,
-    method: 'POST'
-  });
-  const items = await res.json();
+
+  let res;
+  try {
+    res = await fetch(resource, { body: params, method: 'POST' });
+  } catch (err) {
+    console.error('Upstream fetch failed:', err);
+    return errorResponse(502, 'Upstream unreachable');
+  }
+
+  if (!res.ok) {
+    console.error(`Upstream returned ${res.status} ${res.statusText}`);
+    return errorResponse(502, `Upstream error (${res.status})`);
+  }
+
+  let items;
+  try {
+    items = await res.json();
+  } catch (err) {
+    console.error('Failed to parse upstream JSON:', err);
+    return errorResponse(502, 'Invalid upstream response');
+  }
+
   const next = offset + items.length;
   const body = template({ items, next, offset });
 
   return {
-    status: '200',
-    statusDescription: 'OK',
+    statusCode: 200,
     headers: {
-      'cache-control': [{
-        key: 'Cache-Control',
-        value: 'max-age=300'
-      }],
-      'content-type': [{
-        key: 'Content-Type',
-        value: 'text/html; charset=utf-8'
-      }]
+      'Cache-Control': 'max-age=300',
+      'Content-Type': 'text/html; charset=utf-8'
     },
     body,
   };

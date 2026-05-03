@@ -27,27 +27,31 @@ html(lang="en")
       }
   body
     main(class="container")
-      h3!= `Book Marks &#8226; Fiction &#8226; ${offset + 1} - ${next}`
-      each item, index in items
-        details(id='i' + (offset + index + 1))
-          summary
-            i= item.book_name
-            span!= ' &#8226; '
-            span= item.book_author
-            span!= ' &#8226; '
-            span(class="tag")
-              span(style="color:#0b5")!= '&#x25b2;'.repeat(item.raves)
-              span(style="color:#33f")!= '&#x25b4;'.repeat(item.good)
-              span(style="color:#ff3")!= '&#x25c6;'.repeat(item.mixed)
-              span(style="color:#f33")!= '&#x25bc;'.repeat(item.pan)
-            each cat in item.post_category
-              unless cat.name === "Fiction" || cat.name === "Literary"
-                span(class="tag")!= cat.name
-          article
-            div!= item.book_manual_description
-            div
-              a(href=item.url)= 'Reviews'
-      if offset > 0
-        a(href=`?offset=${Math.max(0, offset - items.length)}`)= 'Previous'
-        span!= ' &#8226; '
-      a(href=`?offset=${next}`)= 'Next'
+      if error
+        h3!= 'Book Marks'
+        p= error
+      else
+        h3!= `Book Marks &#8226; Fiction &#8226; ${offset + 1} - ${next}`
+        each item, index in items
+          details(id='i' + (offset + index + 1))
+            summary
+              i= item.book_name
+              span!= ' &#8226; '
+              span= item.book_author
+              span!= ' &#8226; '
+              span(class="tag")
+                span(style="color:#0b5")!= '&#x25b2;'.repeat(item.raves)
+                span(style="color:#33f")!= '&#x25b4;'.repeat(item.good)
+                span(style="color:#ff3")!= '&#x25c6;'.repeat(item.mixed)
+                span(style="color:#f33")!= '&#x25bc;'.repeat(item.pan)
+              each cat in item.post_category
+                unless cat.name === "Fiction" || cat.name === "Literary"
+                  span(class="tag")!= cat.name
+            article
+              div!= item.book_manual_description
+              div
+                a(href=item.url)= 'Reviews'
+        if offset > 0
+          a(href=`?offset=${Math.max(0, offset - items.length)}`)= 'Previous'
+          span!= ' &#8226; '
+        a(href=`?offset=${next}`)= 'Next'
