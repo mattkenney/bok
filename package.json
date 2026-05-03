@@ -7,6 +7,7 @@
   },
   "scripts": {
     "build": "node src/compile.mjs",
+    "deploy": "./scripts/deploy.sh",
     "dev": "node --watch-path=src src/dev.mjs"
   }
 }
